@@ -1,0 +1,125 @@
+◯初期設定
+
+・名前とメルアドの登録
+	$ git config --global user.name "<YOUR NAME>"
+	$ git config --global user.email "<YOUR MAIL ADDRESS>"
+
+　　⇨ここで設定した名前とアドレスは下記ファイルに保存される
+　　
+　　~/.gitconfig
+
+・コマンド出力を読みやすくする
+	$ git config --global color.ui auto
+
+◯SSHキーの設定
+　SSHはGitHubのリポジトリへのアクセス認証で利用する
+　
+	$ ssh-keygen -t rsa -C "<YOUR REGISTERED MAIL ADDRESS>" 
+	$ ssh-add ~/.ssh/id_rsa
+	
+	パスワード入力後、フィンガープリントが表示される
+	これは下記コマンドで確認できる
+	
+	$ cat ~/.ssh/id_rsa.pub
+	ssh-rsa <PUBLIC KEY INDICATION> <YOUR REGISTERED MAIL ADDRESS>
+	
+	正しく認証されるか確認
+	
+	$ ssh -T git@github.com
+	
+	最後に、
+	　You've successfully authenticated, buy GitHub does not provide shell access. 
+	と表示されれば成功
+	
+	WebブラウザでGitHubにアクセス、ログインし、"Account Settings" から
+	上記 id_rsa.pub の内容を登録する。
+	
+◯リポジトリの作成
+
+　　Webインタフェースで作成する
+
+◯基本サイクル
+　1. git レポジトリのクローンを作成する 
+
+	$ cd <target directory>
+	$ git clone git@github.com:<your registered name>/<target repository>.git
+	
+　2. 上記作成されたローカルのgit repository にファイル／ディレクトリを追加する
+　
+　3.  追加されたファイル／ディレクトリを add する
+　
+	$ git add <target file>
+	または
+	$ git add <target directory>
+	
+　4. コミットする
+　
+　	$ git commit -m "<commit comment>"
+　
+　5. pushして GitHubを更新する
+　
+	$ git push
+
+◯gitの基本
+
+・git リポジトリの作成
+	$ git init
+	
+・git リポジトリの状態確認
+	$ git status
+
+・ステージ領域にファイルを追加
+	$ git add <target>
+	
+・リポジトリの歴史を記録（コミット）
+	$ git commit -m "<message>"
+	または
+	$ git commit
+	
+	⇨ -m オプションをつけない場合は詳細モード
+	１行目：件名
+	２行目：空行
+	３行目：以降詳細　（エディタを途中で終了すればcommitキャンセル）
+
+・コミットログの表示
+	全表示
+	$ git log
+	コミットコメント１行目のみ表示
+	$ git log --pretty=short 
+	特定のファイル／ディレクトリのみ表示
+	$ git log <target> 
+	差分も表示したい場合
+	$ git log -p
+	$ git log -p <target>
+
+・差分を表示する
+	ワークツリーとステージ領域との差分を表示
+	$ git diff
+	add 後はステージ領域が更新されるので、そのままでは何も表示されなくなる
+	（ワークツリー＝ステージ領域になるため）
+	最新コミットとステージ領域の差分を表示するためにはHEADをつける
+	$ git diff HEAD
+
+・ブランチの表示と生成
+	単に表示するだけ
+	$ git branch
+	ブランチの生成は、branch の後に <branch name> を記述する
+	$ git branch <branch name>
+
+・ブランチの作成と切り替え
+	<branch name>で指定されたブランチに切り替える
+	$ git checkout <branch name>
+	生成と切り替えを一括で行う
+	$ git checkout -b <branch name>
+
+	一つ前のブランチに戻る場合
+	$ git checkout -
+
+・ブランチのmerge
+	ブランチをマスターに反映させる
+	$ git checkout master
+	$ git merge --no-ff <branch name>
+	⇨--no-ff オプションを指定することにより、コメントを残せる。
+	
+・ブランチを視覚的に確認する
+	$ git log --graph	

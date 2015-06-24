@@ -1,0 +1,27 @@
+
+2015/06/24 
+
+◯Macでスクリーンショットを撮る
+
+（１）画面全体：
+　　[コマンド]キー　+　[Shift]キー　+　[3]キー　　　　
+
+（２）ドラッグで選択した部分
+　　[コマンド]キー　+　[Shift]キー　+　[4]キー
+
+（３）１つのウィンドウ
+　　[コマンド]キー　+　[Shift]キー　+　[4]キー　+　[Space]キー
+　　※カメラアイコンが表示される。カメラアイコンで選択した一つのウインドウ
+　　
+　　＜保存場所：デスクトップ、保存形式：PNG＞
+
+◯Macに搭載されているCPUのモデルナンバーを確認する
+
+　ターミナルで下記コマンドを入力
+　$  sysctl machdep.cpu.brand_string
+　
+　ちなみに、Mac Book Pro Retina 13 inch 2014 Mid での実行結果
+　$ sysctl machdep.cpu.brand_string
+　　machdep.cpu.brand_string: Intel(R) Core(TM) i5-4278U CPU @ 2.60GHz
+
+　　※Haswell世代（第４世代）のIntel Core ファミリーのプロセッサ、低電圧版
