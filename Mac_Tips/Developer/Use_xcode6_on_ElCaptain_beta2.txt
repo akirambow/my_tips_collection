@@ -1,4 +1,9 @@
 [Mac Tips for Developer]
 
-Xcode 6.3.2 を強制起動する方法
+El Captain Beta 2 にするとXcode 6が起動できなくなる
+Developer Forum にもスレッドが立っている
+そこで得られた情報
+
+◯Xcode 6.3.2 を強制起動する方法
+ターミナルから下記コマンドを入力すれば起動可能
 $ /Applications/Xcode.app/Contents/MacOS/Xcode </dev/null &>/dev/null &
