@@ -1,0 +1,4 @@
+[Mac Tips for Developer]
+
+Xcode 6.3.2 を強制起動する方法
+$ /Applications/Xcode.app/Contents/MacOS/Xcode </dev/null &>/dev/null &
