@@ -1,0 +1,26 @@
+【UITableViewDataSourceプロトコル】
+
+◯Overview
+・UITableView のデータモデルを管理するオブジェクトが実装するプロトコル。
+・tableViewのオブジェクトにtableviewをconstructしたりmodifyする必要があることを伝える。
+・代表的なモデル：data source は table viewの見た目に対して最小限の情報を供給し、delegate がそれらの情報をtableViewに提供する
+・プロトコルで必要なMethodは、表示すべき Cell の情報を提供し、加えて、UITableViewオブジェクトにsection/rowの数も通知する
+・Data sourceにはOptional method として、様々なaspectを調整するもの、insert/delete/reorderするものがある
+・多くのMethod が NSIndexPathを持つ。row/sectionにアクセスするのに使う
+
+◯Configuring a Table View
+・tableView:cellForRowAtIndexPath: -> UITableViewCell	挿入しようとする場所にある cell オブジェクトを data source に問い合わせる。
+・numberOfSectionsinTableView: -> Int				TableViewのセクション数をdata source に問い合わせる。
+・tableView:numberOfRowsinSection: -> Int			tableViewのあるsectionのrow数を data source に問い合わせる。
+・sectionIndexTitlesForTableView: -> [String]?		tableviewにある sectionのタイトルを data source に問い合わせる
+・tableView:sectionForSectionIndexTitle:atIndex -> Int	入力されたTitleとIndexに該当するsectionのindex を data source に問い合わせる
+・tableView:titleForHeaderInSection: -> String?		指定されたsectionのヘッダーのタイトルを data source に問い合わせる
+・tableView:titleForFooterInSection: -> String?		指定されたsectionのフッターのタイトルを data source に問い合わせる
+
+◯Inserting or Deleting Table Rows
+・tableView:commitEditingStyle:forRowAtIndexPAth:	Receiverの中で、insertion/deletion をcommit するように data source に伝える
+・tableView:canEditRowIndexPath: -> Bool			指定されたRowがEditableかどうか data source に問い合わせる
+
+◯Reordering Table Rows
+・tableView:CanMoveRowAtIndexPath: -> Bool		指定されたRowがtableViewの別の場所に移動可能かを data source に問い合わせる				
+・tableView:moveRowAtIndexPath:toIndexPath:		指定されたRowをtableViewの別の場所に移動するよう data source に伝える

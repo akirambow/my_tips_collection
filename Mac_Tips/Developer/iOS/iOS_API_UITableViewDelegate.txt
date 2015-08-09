@@ -1,0 +1,62 @@
+【UITableViewDelegateクラス】
+
+◯Overview
+・UITableView の delegate として実装されるクラス。
+・Tableの選択、Header や Footer の Configuration、cell の delegateやreorderなどの各種アクションを提供する。
+・ほとんどのprotocol が NSIndexPath をパラメータに持つ。
+・NSIndexPathは表示されている Row にアクセスするためのもので、Row index と Section index を持つ。
+・逆に、指定された Row から、NSIndexPathのオブジェクトも取得することができる。
+・通常、Row は Sectionの中に配置されているので、Rowを見る前に Sectionをチェックする必要がある。
+
+◯Configuring Rows for the Table View
+・tableView:heightForRowAtIndexPath:	->CGFloat			特定SectionのRowに使われているheight をdelegateに問い合わせる
+・tableView:estimatedHeightForRowAtIndexPath: -> CGFloat	特定SectionのRowに使われているEstimated height をdelegateに問い合わせる
+・tableView:indentationLevelForRowAtIndexPath: -> Int		指定されたSectionのrowのインデントレベルをdelegateに問い合わせる
+・tableView:willDisplayCell:forRowAtIndexPath:			特定Rowのセルを描画するように delegate に伝える
+
+◯Managing Accessory Views
+・tableView:editActionsForRowAtIndexPath: -> [UITableViewRowAction]?	Rowがswipeされた時に動作するAction をdelegate に問い合わせる
+・tableView:accessoryButtonTappedForRowWithIndexPath:			指定されたRowに関連付けられたaccessory viewでユーザがタッチしたものを delegate に伝える
+
+◯Managing Selections
+・tableView:willSelectRowAtIndexPath: -> NSIndexPath?		ある特定のRow が選択されたことを delegate に伝える。
+・tableView:didSelectRowAtIndexPath:  					ある特定のRow が現在選択されていることを delegate に伝える
+・tableView:willDeselectRowAtIndexPath: -> NSIndexPath?	ある特定のRow の選択を解除することを delegate に伝える。
+・tableView:didDeselectRowAtIndexPath:				ある特定のRow の選択が現在解除されていることをdelegateに伝える
+
+◯Modifying the Header and Footer of Sections
+・tableView:viewForHeaderInSection: -> UIView?			特定sectionのヘッダーに表示されているViewオブジェクトを delegate に問い合わせる
+・tableView:viewForFooterInSection: -> UIView?			特定sectionのフッターに表示されているViewオブジェクトを delegate に問い合わせる
+・tableView:heightForHeaderInSection: -> CGFloat			特定sectionのヘッダー領域のheightをdelegate に問い合わせる
+・tableView:estimatedHeightForHeaderInSection: -> CGFloat	特定sectionのヘッダー領域のEstimated height を delegateに問い合わせる
+・tableView:heightForFooterInSection: -> CGFloat			特定sectionのフッター領域のheightをdelegate に問い合わせる					
+・tableView:estimatedHeightForFooterInSection: -> CGFloat	特定sectionのフッター領域のEstimated height を delegateに問い合わせる
+・tableView:willDisplayHeaderView:forSection:			特定sectionのheader viewを表示するように delegate に伝える。
+・tableView:willDisplayFooterView:forSection:				特定sectionのfooter view を表示するように delegate に伝える。
+
+◯Editing Table Rows
+・tableView:willBeginEditingRowAtIndexPath:				TableViewがEditing modeに移行しようとしていることを delegate に伝える
+・tableView:didEndEditingRowAtIndexPath:				TableViewがEditing mode を終了したことを delegate に伝える
+・tableView:editingStyleForRowAtIndexPath: 				tableViewの特定locationにあるrowのediting style を問い合わせる
+	-> UITableViewCellEditingStyle				
+・tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:	delete-confirmation buttonのデフォルトタイトルを変更する
+	-> String?
+・tableView:shouldIndentWhileEditingRowAtIndexPath: -> Bool	TableViewがEditing modeの間にRowにindent を入れるかどうかを delegateに問い合わせる
+
+◯Reordering Table Rows
+・tableView:targetIndexPathForMoveFromRowAtIndexPath:toPropposedIndexPath: -> NSIndexPath
+											行の移動のretarget先の新しいindex path を delegate に問い合わせる。
+◯Tracking the Removal of Views
+・tableView:didEndDisplayingCell:forRowAtIndexPath:		Table から cell が removeされたことを delegate に伝える
+・tableView:didEndDisplayingHeaderView:forSection:		Table から header が remove されたことを delegate に伝える
+・tableView:didEndDisplayingFooterView:forSection:		Table から footer が remove されたことを delegate に伝える
+
+◯Copying and Pasting Row Content
+・tableView:shouldShowMenuForRowAtIndexPath: -> Bool			Rowに対して Editing menu を表示できるかどうかをdelegate に問い合わせる
+・tableView:canPerformAction:forRowAtIndexPath:withSender: ->Bool	指定されたRowに対して、Editing menu のCopy/Pasteコマンドを省略するかどうかを delegate に問い合わせる
+・tableView:performAction:forRowAtIndexPath:withSender:			指定されたRowのコンテンツにcopy/paste を実行するように delegate に伝える
+
+◯Managing Table View Highlighting
+・tableView:shouldHighlightRowAtIndexPath: -> Bool		RowがHighlightされているかどうかを delegate に問い合わせる
+・tableView:didHighlightRowAtIndexPath:				RowがHighlightされていたことを delegate に伝える
+・tableView:didUnhighlightRowAtIndexPath:				index pathで指定された rowの highlight が解除されたことを delegate に伝える。

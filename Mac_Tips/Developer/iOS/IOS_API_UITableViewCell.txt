@@ -1,0 +1,97 @@
+【UITableViewCellクラス】
+
+◯概要
+・UITableViewオブジェクトの中で表示されている Cellの attributeやbehavior を定義したクラス。
+・このクラスには cell の中身や背景を set したり manage したりする property や method を持つ。
+・Cellの選択やハイライト、Accessory Viewの管理や Cellの中身の編集をinitiate する。
+・Cell の生成方法には、カスタムcellを作る方法と、定義済みのものを使う方法がある。
+・定義済みのcell スタイルは極めてシンプル。label と image を subviewとしてもち、ポジションも固定。
+　プログラムからそのlabel と image にデータをprovide すれば良い。
+・定義済みのcellスタイルを使う場合は、 initWithStyle:reuseIdentifier: methodを使うか、XCodeで
+　そのスタイルを configure すれば良い。
+・Cell 内の label / image にアクセスするには、 textLabel, detailTextLabel, imageView プロパティを参照する。
+・定義済みスタイル以上のことをやるには、contentView プロパティに subview を追加すれば良い
+　subViewを追加した場合は、ポジショニングを行ってやる必要がある。
+・cellのbackground は backgroundView プロパティを使って変更するか、backgroundColor プロパティを使って変更可能。
+・cell の background colorを変えたい場合は、tableView:willDisplayCell:forRowAtIndexPathメソッドを実行する。(delegate メソッド）
+
+◯Initializing a UITableViewCell Object
+	[Initilizer]
+		initWithStyle:reuseIdentifier:		Styleと reuse identifier を使って initializeする
+								identifier で指定された cell オブジェクトは同じ cell Configuration を持つ。
+								cellの中身は不問。
+◯Reusing Cells
+	[Property]
+		reuseIdentifier: String?	 {get}		reuseableなcell の識別子 (read-only)
+								UITableViewは reusableな cell のキュー（リスト）をManageしている
+	[Method]
+		prepareForReuse()			TableViewのDelegateによって再利用されるCell を用意する
+								dequeueReusableCellWithIdentifier メソッドからリターンされる直前に実行される
+								tableView:cellForRowAtIndexPathを実行するとcellの再利用時にcontentはリセットされる
+								reuseIdentifierがある場合のみ呼ばれる。
+◯Managing the Predefined Content
+	[Property]
+		textLabel: UILabel?			cellのmainのtextual content を返す。(read-only)
+		detailTextLabel: UILabel?		cellのセカンダリのテキストラベルを返す。(read-only)
+		imageView: UIImageView?		Table cell にセットされている image view を返す。(read-only)
+
+◯Accessing Views of the Cell Object
+	[Property]
+		contentView: UIView {get}		cell オブジェクトの content view を返す (read-only)
+		backgroundView: UIView?		Cell の背景に使われているView (Plain-style ではデフォルト nil)
+		selectedBackgroundView: UIView?	Cell が選択された時の背景に使われているView
+		multipleSelectionBackgroundView: UIView?	複数のCellが選択された時の背景に使われているView
+
+◯Managing Accessory Views
+	[Property]
+		accessoryType: UITableViewCellAccessoryType	Cellが使うべき標準的なAcceesoryViewのタイプ(Normal state)
+											※AccessoryViewとは通常、cellの右側に見られるもので disclosure chevron を含む
+		accessoryView: UIView?	cellの右側にある制御用のview (Normal state用)
+		editingAccessoryType: UITableViewCellAccessoryType	Cellが使うべき標準的なAccessoryViewのタイプ(Editing state)
+		editingAccessoryView: UIView?	cellの右側にある制御用のview (Editing state用)
+
+◯Managing Cell Selection and Highlighting
+	[Property]
+		selected: Bool		cellが選択されているかどうかのBoolean
+		selectionStyle: UITableViewCellSelectionStyle		cellのセレクションスタイル。
+		highlighted: Bool		cellがハイライトされているかどうかのBoolean
+		
+	[Method]
+		setSelected(_ selected: Bool, animated animated: Bool)	cellが選択された状態にする、animateさせるかどうかも同時にセット
+		setHighlighted(_ highlighted: Bool, animated animated: Bool)  cellがハイライトされた状態にする、animateさせるかどうかも同時にセット
+
+◯Edigting the Cell
+	[property]
+		editing: Bool						cellがediting modeであるかどうかを表すboolean
+		editingStyle: UITableViewCellEditingStyle	cellのediting style (read-only)
+		showingDeleteConfirmation: Bool			cell が削除確認ボタンを表示するかどうかを表すboolean
+		showsReorderControl: Bool				cell に reordering のUIを表示するかどうかを表す boolean
+	
+	[Method]
+		setEditing(_ editing: Bool, animated animated: Bool)  cellのediting modeをトグルさせる。	
+		
+◯Adusting to State Transitions
+	[Method]
+		willTransitionToState(_ state: UITableViewCellStateMask)		cell state のtransitionを開始する前に呼ぶ
+													サブクラスはこのmethod を実装する必要あり
+		didTransitionToState(_state: UITableViewCellStateMask)		cell state の transition が終わった後に呼ばれる
+	
+◯Managing Content Indentation
+	[Property]
+		indentationLevel: Int			cellコンテンツのインデントレベル
+		indentationWidth: CGFloat		cell コンテンツのインデントの幅
+		shouldIndentWhileEditing: Bool	Editing modeの時にcell の背景にインデントを入れるかどうかを示すBoolean
+		separatorInset: UIEdgeInsets	cell コンテンツの inset 値
+		
+		
+◯Constant
+	[enum]
+		UITableViewCellStyle: Int				cell のスタイル（Default, Value1, Value2, Subtitle)
+		UITableViewCellSelectionStyle: Int			cell が選択された時のスタイル(None, Blue, Gray, Default)
+		UITableViewCellEditingStyle: Int			cell に使われるediting control のスタイル (None, Delete, Insert)
+		UITableViewCellAccessoryType: Int		cell に使われる標準的な accessory control
+										(None, DisclosureIndicator, DetailDisclosureButton, Checkmark, DetailButton)
+	[struct]
+		UITableViewCellStateMask: OptionSetType	stateのTransitionで指定する新しいstate
+										(DefaultMask, ShowingEditControlMask, ShowingDeleteConfirmationMask)
+										

@@ -1,0 +1,102 @@
+====================================================================
+【UITabBar クラス】
+◯参考URL：https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UITabBar_Class/index.html#//apple_ref/c/tdef/UITabBarItemPositioning
+◯確認日：2015/08/09
+====================================================================
+
+◯概要
+・Tab bar はコントロール。
+・Tab bar に表示されたボタンのワンタップで、Viewへのmodal access を提供。
+・Tab bar に表示されているボタンは UITabBarItem クラスのインスタンス。
+・何らかのactionを行わせたい場合は、代わりに UIToolBar を使うこと。
+・Tab Bar は reordering、removing、adding によるカスタマイズが可能、delegateが使える。
+・UITabBarItemにはタップした時の動作animationを設定できる。(setItems:animated)
+・SelectedItem Property を参照することでどのitem がタップされたかがわかる。
+・[IMPORTANT]
+	UITabBarController によって管理されてる tab bar は修正禁止。
+	修正した場合は、システムが Exception を投げる。
+	修正できるのは、UITabBarController のAPIを経由できる範囲のみ。
+	→tab bar を direct に変更したいのであれば、UITabBarController は使わないこと。
+	
+◯タスク
+・Setting the Delegate
+	[Property]
+		unowned(unsafe) var delegate: UITabBarDelegate?		
+			独自のbehaviorを必要とする場合は UITabBarDelegateプロトコルを実装したクラスを
+			このProperty にセットする必要がある。デフォルトは nil。
+
+・Configuring Tab Bar Items
+	[Property]
+		var items: [UITabBarItem]?
+			Tab barに表示する UITabBarItem のインスタンス。配列に登録した順で表示。
+		
+		unowned(unsafe) var selectedItem: UITabBarItem?
+			このPropertyに値をセットすることで、UI に選択されたItem をフィードバックする。
+			Tab Bar 上に表示されている Item は "selectedImage" と "selectedImageTintColor" で
+			指定されたappearanceで表示される。
+			
+	[Method]
+		func setItems(_ items: [UITabBarItem]?,  animated animated: Bool) 
+			Tab Barに表示する Item をセットする。
+			animated を true にすると、Tab Barを表示する時のtransitionをアニメーションさせられる。
+
+・Supporting User Customization of Tab Bars
+	[Method]
+		func beginCustomizingItems(_ items: [UITabBarItem])
+		func endCustomizingAnimated(_ animated: Bool) -> Bool
+		func isCustomizing() -> Bool
+			T.B.A
+
+・Customizing Tab Bar Appearance
+	[Property]
+		var barStyle: UIBarStyle
+			UIBarStyle は enum 型。Default / Black / BlackTransLucent が選択可能。
+		
+		var barTintColor: UIColor?
+			UIColor はクラス。init または class func をコールする必要がある。
+			translucent プロパティが true だと translucent で設定される。
+		
+		var itemPositioning: UITabBarItemPositioning
+			Tab bar 上の tab bar items の配置スキーム。
+			Default は UITabBarItemPositioning.Automatic がセットされている。
+			　→iPhone：水平方向いっぱいに配置。間隔の調整が必要になる。
+			　→iPad：Default Width の範囲で配置。左右に空白が生じる。
+			強制的に水平方向いっぱいに配置したい場合　→　UITabBarItemPositioning.Fill をセット。
+			default inter-item width に従って配置したい場合　→　UITabBarItemPositioning.Centered をセット。
+	
+		var itemSpacing: CGFloat
+			Centered が指定された場合の、itme間の幅。
+			システム定義値を使う場合は "0" を指定する。
+			
+		var itemWidth: CGFloat
+			Centered が指定された場合の、itmeそのものの幅。
+			システム定義値を使う場合は "0" を指定する。
+			
+		var tintColor: UIColor!
+			Tab bar item に対する tint color。
+		
+		var translucent: Bool
+			Tab Bar を translucent にするかどうかのBoolean。
+			Default は false、ただし、Background image の alpha 値が 1.0未満の時は true。
+		
+		var backgroundImage: UIImage?
+			Tab Bar の Background image。
+			Strechable なものは Streched表示、そうでないものは Tile 表示。
+		
+		var shadowImage: UIImage?
+			Tab bar で使われる Shadow Image。
+			デフォルトは nil。
+			ここに何らかのImageをセットする場合は、backgroundImage にセットされている必要がある。
+			
+		var selectionIndicatorImage: UIImage?
+			Selection Indicator で使われる Image。
+			bar item icon の裏側で表示される、トップに描画される image。
+
+・Constants
+	[enum]
+		enum UITabBarItemPositioning : Int
+			TabBarItem の Positioning を決定するための定数。
+			・Automatic	システム任せ。iPhoneとiPadで異なる。
+			・Fill			Tab bar 全体に広がるように配置（Automatic の iPhone と同様）
+			・Centered		Tab bar の中心に集まるように配置（Automatic の iPad と同様）
+			
