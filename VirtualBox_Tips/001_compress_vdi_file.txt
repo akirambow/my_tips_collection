@@ -1,0 +1,29 @@
+Virtual Box用の肥大した仮想ディスクを圧縮する方法。
+
+前提：
+・ホストOS）Windows
+・ゲストOS) Linux
+
+手順：
+1.ゲストOS(Linux)を起動する。
+
+2.ゲストOS上で空き領域をゼロクリアする
+  $ sudo dd if=/dev/zero of=zero bs=4K
+  $ rm zero
+
+3.ゲストOSをシャットダウンする。
+
+4.ホストOS(Windows)のコマンドラインを開く
+
+5.VirtualBoxのインストールフォルダに移動する
+  > cd "c:¥Program Files¥Oracle¥VirtualBox"
+
+6.対象の仮想ディスクのUUID(32桁の文字列)を調べる
+  > VboxManage.exe list hdds
+
+7.調べたUUIDを指定してmodifyhd を実行する。
+  > VBoxManage.exe modifyhd [uuid] --compact
+
+  ※[uuid]には調べたUUIDを指定する。
+
+以上
